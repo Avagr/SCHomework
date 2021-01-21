@@ -38,4 +38,11 @@ public class GeoResponse {
     public double getLongitude() {
         return longitude;
     }
+
+    @Override
+    public String toString() {
+        return "Country: " + countryName + System.lineSeparator() + "Region: " + regionName + System
+            .lineSeparator() + "City: " + city + System.lineSeparator() + "Latitude: " + latitude
+            + System.lineSeparator() + "Longitude: " + longitude;
+    }
 }

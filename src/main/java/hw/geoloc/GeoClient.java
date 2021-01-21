@@ -18,10 +18,10 @@ public class GeoClient {
     private final HttpTransport transport = new NetHttpTransport();
     private final JsonFactory jsonFactory = new GsonFactory();
 
-    private final String address; // Address to request geo data from
+    private final GeoUrl url; // Address to request geo data from
 
     public GeoClient(String address) {
-        this.address = address;
+        url = new GeoUrl(address);
     }
 
     /**
@@ -29,11 +29,8 @@ public class GeoClient {
      * @throws IOException if unable to receive a response
      */
     public GeoResponse getResponse() throws IOException {
-        HttpRequestFactory factory = transport.createRequestFactory((HttpRequest request) -> {
-            request.setParser(new JsonObjectParser(jsonFactory));
-        });
-
-        GeoUrl url = new GeoUrl(address);
+        HttpRequestFactory factory = transport.createRequestFactory(
+            (HttpRequest request) -> request.setParser(new JsonObjectParser(jsonFactory)));
         var res = factory.buildGetRequest(url).execute();
         return res.parseAs(GeoResponse.class);
     }
